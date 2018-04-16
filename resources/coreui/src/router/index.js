@@ -11,6 +11,7 @@ import Colors from '../views/theme/Colors'
 import Typography from '../views/theme/Typography'
 
 import Charts from '../views/Charts'
+import Tasks from '../views/Tasks'
 import Widgets from '../views/Widgets'
 
 // Views - Components
@@ -49,7 +50,7 @@ import Modals from '../views/notifications/Modals'
 // Views - Pages
 import Page404 from '../views/pages/Page404'
 import Page500 from '../views/pages/Page500'
-import Login from '../views/pages/Login'
+import Login from '../views/Login'
 import Register from '../views/pages/Register'
 
 Vue.use(Router)
@@ -69,6 +70,16 @@ export default new Router({
           path: 'dashboard',
           name: 'Dashboard',
           component: Dashboard
+        },
+        {
+          path: 'tasks',
+          name: 'Tasks',
+          component: Tasks
+        },
+        {
+          path: 'login',
+          name: 'Login',
+          component: Login
         },
         {
           path: 'theme',
@@ -284,11 +295,6 @@ export default new Router({
           path: '500',
           name: 'Page500',
           component: Page500
-        },
-        {
-          path: 'login',
-          name: 'Login',
-          component: Login
         },
         {
           path: 'register',

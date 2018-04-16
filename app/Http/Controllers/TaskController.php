@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Task;
+use JWTAuth;
 use Illuminate\Http\Request;
-use App\Repositories\TaskRepository;
 
 class TaskController extends Controller
 {
@@ -20,10 +20,9 @@ class TaskController extends Controller
      *
      * @return void
      */
-    public function __construct(TaskRepository $tasks)
+    public function __construct()
     {
-        $this->middleware('auth');
-        $this->tasks = $tasks;
+        $this->middleware('jwt.auth');
     }
 
     /**
@@ -32,11 +31,10 @@ class TaskController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        return view('tasks.index', [
-            'tasks' => $this->tasks->forUser($request->user()),
-        ]);
+        $user = JWTAuth::parseToken()->authenticate();
+        return $user->tasks()->get()->keyBy('id');
     }
 
     /**
@@ -51,11 +49,8 @@ class TaskController extends Controller
             'name' => 'required|max:255',
         ]);
 
-        $request->user()->tasks()->create([
-            'name' => $request->name,
-        ]);
-
-        return redirect('/tasks');
+        $user = JWTAuth::parseToken()->authenticate();
+        return $user->tasks()->create($request->only('name'))->fresh();
     }
 
     /**

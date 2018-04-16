@@ -11,14 +11,18 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
-Auth::routes();
+//Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/tasks', 'TaskController@index');
-Route::post('/task', 'TaskController@store');
-Route::delete('/task/{task}', 'TaskController@destroy');
+//Route::get('/tasks', 'TaskController@index');
+//Route::post('/task', 'TaskController@store');
+//Route::delete('/task/{task}', 'TaskController@destroy');
+
+Route::get('/{vue_capture?}', function () {
+    return view('coreui');
+})->where('vue_capture', '[\/\w\.-]*');
