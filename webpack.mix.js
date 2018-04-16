@@ -10,6 +10,13 @@ let mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
+// Copy over the CoreUI Assets into separate coreui directories
+/*
+var coreui_vendor = 'node_modules/@coreui/vue/Vue_Full_Project';
+mix.copyDirectory(coreui_vendor + '/static/img', 'public/static/img')
+    .copyDirectory(coreui_vendor + '/scss', 'resources/coreui/scss')
+    .copyDirectory(coreui_vendor + '/src', 'resources/coreui/src');
+*/
 
 mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');

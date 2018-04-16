@@ -10,6 +10,7 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
+    "@coreui/vue": "^1.0.10",
     "axios": "^0.16.2",
     "bootstrap-sass": "^3.3.7",
     "cross-env": "^5.0.1",
@@ -17,5 +18,16 @@
     "laravel-mix": "^1.0",
     "lodash": "^4.17.4",
     "vue": "^2.1.10"
+  },
+  "dependencies": {
+    "bootstrap-vue": "^2.0.0-rc.6",
+    "chart.js": "^2.7.2",
+    "css-loader": "^0.28.11",
+    "flag-icon-css": "^3.0.0",
+    "font-awesome": "^4.7.0",
+    "simple-line-icons": "^2.4.1",
+    "vue-chartjs": "^3.3.1",
+    "vue-loader": "^14.2.2",
+    "vue-router": "^3.0.1"
   }
 }

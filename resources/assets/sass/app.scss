@@ -6,4 +6,11 @@
 @import "variables";
 
 // Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+//@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+// Fonts
+@import "node_modules/font-awesome/scss/font-awesome"; // Font Awesome
+@import "node_modules/simple-line-icons/scss/simple-line-icons"; // Simple Line Icons
+
+// CoreUI Style
+@import "../../coreui/scss/style.scss";
