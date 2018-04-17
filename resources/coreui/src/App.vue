@@ -3,8 +3,20 @@
 </template>
 
 <script>
+import userStore from '../../assets/js/stores/userStore'
+
 export default {
-  name: 'app'
+  name: 'app',
+  created() {
+    this.redirect()
+  },
+  methods: {
+    redirect() {
+      if (!userStore.state.authenticated) {
+        this.$router.push('/login')
+      }
+    }
+  }
 }
 </script>
 

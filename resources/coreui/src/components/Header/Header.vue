@@ -28,13 +28,22 @@
     <!--<button class="navbar-toggler aside-menu-toggler d-md-down-none" type="button" @click="asideToggle">
       <span class="navbar-toggler-icon"></span>
     </button>-->
+    <button type="button" class="fa fa-pull-left btn btn-primary" @click="logout()" v-if="userState.authenticated">
+      <span>Log out</span>
+    </button>
   </header>
 </template>
 <script>
   import HeaderDropdown from './HeaderDropdown.vue'
+  import userStore from '../../../../assets/js/stores/userStore'
 
   export default {
     name: 'c-header',
+    data (){
+      return {
+        userState: userStore.state
+      }
+    },
     components: {
       HeaderDropdown
     },
@@ -54,6 +63,11 @@
       asideToggle (e) {
         e.preventDefault()
         document.body.classList.toggle('aside-menu-hidden')
+      },
+      logout() {
+        userStore.logout( () => {
+          this.$router.push('/login')
+        })
       }
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
     <b-row>
-      <b-col v-for="task in tasks" sm="6" md="4">
+      <b-col v-for="task in tasks" :key="task.id" sm="6" md="4">
         <b-card :header="task.name">
           テスト用カード
         </b-card>
@@ -25,7 +25,7 @@ export default {
       name: '',
       showAlert: false,
       alertMessage: '',
-      userState: userStore.state,      // 追加
+      userState: userStore.state,
     }
   },
   methods: {

@@ -25,6 +25,15 @@ export default {
     })
   },
 
+  // To log out, we just need to remove the token
+  logout (successCb = null, errorCb = null) {
+    http.get('logout', () => {
+      localStorage.removeItem('jwt-token')
+      this.state.authenticated = false
+      successCb()
+    }, errorCb)
+  },
+
   /**
    * Init the store.
    */

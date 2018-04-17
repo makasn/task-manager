@@ -61,6 +61,11 @@ export default new Router({
   scrollBehavior: () => ({ y: 0 }),
   routes: [
     {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
       path: '/',
       redirect: '/dashboard',
       name: 'Home',
@@ -75,11 +80,6 @@ export default new Router({
           path: 'tasks',
           name: 'Tasks',
           component: Tasks
-        },
-        {
-          path: 'login',
-          name: 'Login',
-          component: Login
         },
         {
           path: 'theme',
