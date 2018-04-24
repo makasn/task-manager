@@ -49,6 +49,15 @@ export default {
           this.tasks = res.data
       })
     },
+    create() {
+        http.post('task/create', {name: this.name}, res => {
+            this.largeModal = false
+            this.$router.push('/tasks')
+        }, error => {
+            this.showAlert = true
+            this.alertMessage = 'Failed to create.'
+        })
+    },
   }
 }
 </script>
