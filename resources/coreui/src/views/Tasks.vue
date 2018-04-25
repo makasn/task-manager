@@ -11,6 +11,9 @@
       </b-col>
     </b-row>
     <b-modal title="Create Task" size="lg" v-model="largeModal" @ok="largeModal = false" hide-footer = true>
+      <p class="alert alert-danger" role="alert" v-if="showAlert">
+      {{ alertMessage }}
+      </p>
       <b-input-group class="mb-3">
         <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
         <input id="name" type="name" class="form-control" v-model="name" placeholder="name" required autofocus>
@@ -50,13 +53,13 @@ export default {
       })
     },
     create() {
-        http.post('task/create', {name: this.name}, res => {
-            this.largeModal = false
-            this.$router.push('/tasks')
-        }, error => {
-            this.showAlert = true
-            this.alertMessage = 'Failed to create.'
-        })
+      http.post('task/create', {name: this.name}, res => {
+          this.largeModal = false
+          this.fetchTasks();
+      }, error => {
+          this.showAlert = true
+          this.alertMessage = 'Failed to create.'
+      })
     },
   }
 }

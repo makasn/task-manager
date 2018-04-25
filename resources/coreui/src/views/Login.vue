@@ -8,6 +8,9 @@
               <b-card-body>
                 <h1>Login</h1>
                 <p class="text-muted">Sign In to your account</p>
+                <p class="alert alert-danger" role="alert" v-if="showAlert">
+                {{ alertMessage }}
+                </p>
                 <b-input-group class="mb-3">
                   <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
                   <input id="email" type="email" class="form-control" v-model="email" @keyup.enter="login" placeholder="email" required autofocus>
