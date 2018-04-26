@@ -50,7 +50,7 @@ class TaskController extends Controller
         ]);
 
         $user = JWTAuth::parseToken()->authenticate();
-        return $user->tasks()->create($request->only('name'))->fresh();
+        return $user->tasks()->create($request->only(['name', 'description', 'start_date', 'end_date']))->fresh();
     }
 
     /**

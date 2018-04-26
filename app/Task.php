@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-    protected $fillable = ['name'];
+    protected $guarded = [
+        'id', 'user_id',
+    ];
 
     /**
      * タスク所有ユーザーの取得

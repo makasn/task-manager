@@ -6,17 +6,29 @@
     <b-row>
       <b-col v-for="task in tasks" :key="task.id" sm="6" md="4">
         <b-card :header="task.name">
-          テスト用カード
+          {{ task.description }}
         </b-card>
       </b-col>
     </b-row>
-    <b-modal title="Create Task" size="lg" v-model="largeModal" @ok="largeModal = false" hide-footer = true>
+    <b-modal title="Create Task" size="lg" v-model="largeModal" @ok="largeModal = false" hide-footer>
       <p class="alert alert-danger" role="alert" v-if="showAlert">
       {{ alertMessage }}
       </p>
       <b-input-group class="mb-3">
-        <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
+        <b-input-group-prepend><b-input-group-text><i class="fa fa-tasks"></i></b-input-group-text></b-input-group-prepend>
         <input id="name" type="name" class="form-control" v-model="name" placeholder="name" required autofocus>
+      </b-input-group>
+      <b-input-group class="mb-3">
+        <b-input-group-prepend><b-input-group-text><i class="fa fa-pencil"></i></b-input-group-text></b-input-group-prepend>
+        <input id="description" type="text" class="form-control" v-model="description" placeholder="description" autofocus>
+      </b-input-group>
+      <b-input-group class="mb-3">
+        <b-input-group-prepend><b-input-group-text><i class="fa fa-calendar"></i></b-input-group-text></b-input-group-prepend>
+        <input id="start_date" type="date" class="form-control" v-model="start_date" placeholder="start_date" autofocus>
+      </b-input-group>
+      <b-input-group class="mb-3">
+        <b-input-group-prepend><b-input-group-text><i class="fa fa-calendar"></i></b-input-group-text></b-input-group-prepend>
+        <input id="end_date" type="date" class="form-control" v-model="end_date" placeholder="end_date" autofocus>
       </b-input-group>
       <b-row>
         <b-col cols="6">
@@ -40,6 +52,9 @@ export default {
     return {
       tasks: [],
       name: '',
+      description: '',
+      start_date: '',
+      end_date: '',
       showAlert: false,
       alertMessage: '',
       userState: userStore.state,
@@ -53,7 +68,13 @@ export default {
       })
     },
     create() {
-      http.post('task/create', {name: this.name}, res => {
+      var req = {
+        name: this.name,
+        description: this.description,
+        start_date: this.start_date,
+        end_date: this.end_date,
+      }
+      http.post('task/create', req, res => {
           this.largeModal = false
           this.fetchTasks();
       }, error => {
