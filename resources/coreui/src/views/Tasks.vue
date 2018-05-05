@@ -4,9 +4,16 @@
       <i class="fa fa-pencil-square-o fa-lg fa-2x" @click="largeModal = true"></i>
     </div>
     <b-row>
-      <b-col v-for="task in tasks" :key="task.id" sm="6" md="4">
-        <b-card :header="task.name">
-          {{ task.description }}
+      <b-col md="6">
+        <b-card header-tag="header" footer-tag="footer">
+          <div slot="header">
+            <i class="fa fa-align-justify"></i> <strong>list group</strong>
+          </div>
+          <b-list-group>
+            <draggable v-model="tasks" :options="{group:'people'}" @start="drag=true" @end="drag=false" @change="update">
+            <b-list-group-item v-for="task in tasks" :key="task.id" :data-id="task.id">{{task.id}} {{task.name}}</b-list-group-item>
+            </draggable>
+          </b-list-group>
         </b-card>
       </b-col>
     </b-row>
@@ -42,9 +49,13 @@
 <script>
 import userStore from '../../../assets/js/stores/userStore.js'
 import http from '../../../assets/js/services/http.js'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'tasks',
+  components: {
+    draggable,
+  },
   created() {
     this.fetchTasks()
   },
@@ -81,6 +92,13 @@ export default {
           this.showAlert = true
           this.alertMessage = 'Failed to create.'
       })
+    },
+    update() {
+        this.tasks.map((task, index) => {
+            task.order = index + 1;
+        });
+
+        http.put('tasks/update_order', {tasks: this.tasks})
     },
   }
 }

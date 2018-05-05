@@ -34,7 +34,7 @@ class TaskController extends Controller
     public function index()
     {
         $user = JWTAuth::parseToken()->authenticate();
-        return $user->tasks()->get()->keyBy('id');
+        return $user->tasks()->orderBy('order')->select('id','name','order','status')->get()->values();
     }
 
     /**
@@ -51,6 +51,32 @@ class TaskController extends Controller
 
         $user = JWTAuth::parseToken()->authenticate();
         return $user->tasks()->create($request->only(['name', 'description', 'start_date', 'end_date']))->fresh();
+    }
+
+    /**
+     * タスク更新
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function updateTasksOrder(Request $request)
+    {
+        $this->validate($request, [
+            'tasks.*.order' => 'required|numeric',
+        ]);
+
+        $user = JWTAuth::parseToken()->authenticate();
+        $tasks = $user->tasks()->get();
+
+        foreach ($tasks as $task) {
+            $id = $task->id;
+            foreach ($request->tasks as $tasksNew) {
+                if ($tasksNew['id'] == $id) {
+                    $task->update(['order' => $tasksNew['order']]);
+                }
+            }
+        }
+        return response('Updated Successfully.', 200);
     }
 
     /**
