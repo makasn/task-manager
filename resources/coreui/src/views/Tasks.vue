@@ -4,14 +4,38 @@
       <i class="fa fa-pencil-square-o fa-lg fa-2x" @click="largeModal = true"></i>
     </div>
     <b-row>
-      <b-col md="6">
+      <b-col md="4">
         <b-card header-tag="header" footer-tag="footer">
           <div slot="header">
-            <i class="fa fa-align-justify"></i> <strong>list group</strong>
+            <i class="fa fa-align-justify"></i> <strong>Not Started</strong>
           </div>
           <b-list-group>
-            <draggable v-model="tasks" :options="{group:'people'}" @start="drag=true" @end="drag=false" @change="update">
-            <b-list-group-item v-for="task in tasks" :key="task.id" :data-id="task.id">{{task.id}} {{task.name}}</b-list-group-item>
+            <draggable class="drag-area" v-model="tasksNotStarted" :options="{group:'status'}" @change="update" @add="onAdd($event, 0)">
+            <b-list-group-item v-for="task in tasksNotStarted" :key="task.id" :data-id="task.id">{{task.id}} {{task.name}}</b-list-group-item>
+            </draggable>
+          </b-list-group>
+        </b-card>
+      </b-col>
+      <b-col md="4">
+        <b-card header-tag="header" footer-tag="footer">
+          <div slot="header">
+            <i class="fa fa-align-justify"></i> <strong>Processing</strong>
+          </div>
+          <b-list-group>
+            <draggable class="drag-area" v-model="tasksProcessing" :options="{group:'status'}" @change="update" @add="onAdd($event, 1)">
+            <b-list-group-item v-for="task in tasksProcessing" :key="task.id" :data-id="task.id">{{task.id}} {{task.name}}</b-list-group-item>
+            </draggable>
+          </b-list-group>
+        </b-card>
+      </b-col>
+      <b-col md="4">
+        <b-card header-tag="header" footer-tag="footer">
+          <div slot="header">
+            <i class="fa fa-align-justify"></i> <strong>Completed</strong>
+          </div>
+          <b-list-group>
+            <draggable class="drag-area" v-model="tasksCompleted" :options="{group:'status'}" @change="update" @add="onAdd($event, 2)">
+            <b-list-group-item v-for="task in tasksCompleted" :key="task.id" :data-id="task.id">{{task.id}} {{task.name}}</b-list-group-item>
             </draggable>
           </b-list-group>
         </b-card>
@@ -61,7 +85,9 @@ export default {
   },
   data() {
     return {
-      tasks: [],
+      tasksNotStarted: [],
+      tasksProcessing: [],
+      tasksCompleted: [],
       name: '',
       description: '',
       start_date: '',
@@ -75,7 +101,9 @@ export default {
   methods: {
     fetchTasks() {
       http.get('tasks', res => {
-          this.tasks = res.data
+          this.tasksNotStarted = res.data['tasksNotStarted'],
+          this.tasksProcessing = res.data['tasksProcessing'],
+          this.tasksCompleted = res.data['tasksCompleted']
       })
     },
     create() {
@@ -100,6 +128,15 @@ export default {
 
         http.put('tasks/update_order', {tasks: this.tasks})
     },
+    onAdd(event, status) {
+        let id = event.item.getAttribute('data-id');
+        http.put('tasks/update_status/' + id, {status: status})
+    },
   }
 }
 </script>
+<style>
+  .drag-area{
+    min-height: 10px;  
+  }
+</style>

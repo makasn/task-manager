@@ -16,10 +16,11 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => 'api'], function () {
     Route::post('authenticate',  'AuthenticateController@authenticate');
     Route::get('logout',  'AuthenticateController@logout')->middleware('jwt.refresh');
-    Route::put('tasks/update_order', 'TaskController@updateTasksOrder');
 
     Route::group(['middleware' => 'jwt.auth'], function () {
-        Route::resource('tasks',  'TaskController');
+        Route::get('tasks',  'TaskController@index');
+        Route::put('tasks/update_order', 'TaskController@updateTasksOrder');
+        Route::put('tasks/update_status/{id}', 'TaskController@updateTasksStatus');
         Route::post('task/create',  'TaskController@store');
         Route::get('me', 'AuthenticateController@getCurrentUser');
     });

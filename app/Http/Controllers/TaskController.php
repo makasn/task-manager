@@ -34,7 +34,22 @@ class TaskController extends Controller
     public function index()
     {
         $user = JWTAuth::parseToken()->authenticate();
-        return $user->tasks()->orderBy('order')->select('id','name','order','status')->get()->values();
+        $tasks = $user->tasks()->orderBy('order')->select('id','name','order','status')->get()->values();
+
+        $res = [];
+        $res['tasksNotStarted'] = $tasks->filter(function ($task, $key) {
+            return $task->status == 0;
+        })->values();
+
+        $res['tasksProcessing'] = $tasks->filter(function ($task, $key) {
+            return $task->status == 1;
+        })->values();
+
+        $res['tasksCompleted'] = $tasks->filter(function ($task, $key) {
+            return $task->status == 2;
+        })->values();
+
+        return $res;
     }
 
     /**
@@ -77,6 +92,21 @@ class TaskController extends Controller
             }
         }
         return response('Updated Successfully.', 200);
+    }
+
+    public function updateTasksStatus(Request $request, $id)
+    {
+        $this->validate($request, [
+            'status' => 'required|boolean',
+        ]);
+
+        $user = JWTAuth::parseToken()->authenticate();
+        $task = $user->tasks()->find($id);
+        $task->status = $request->status;
+        $task->save();
+        
+        return response('Updated Successfully.', 200);
+
     }
 
     /**
