@@ -97,7 +97,7 @@ class TaskController extends Controller
     public function updateTasksStatus(Request $request, $id)
     {
         $this->validate($request, [
-            'status' => 'required|boolean',
+            'status' => 'required|numeric',
         ]);
 
         $user = JWTAuth::parseToken()->authenticate();
