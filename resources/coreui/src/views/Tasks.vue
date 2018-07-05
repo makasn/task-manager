@@ -85,6 +85,7 @@ export default {
   },
   data() {
     return {
+      tasks: [],
       tasksNotStarted: [],
       tasksProcessing: [],
       tasksCompleted: [],
@@ -122,10 +123,18 @@ export default {
       })
     },
     update() {
-        this.tasks.map((task, index) => {
+        this.tasksNotStarted.map((task, index) => {
             task.order = index + 1;
+            this.tasks.push(task);
         });
-
+        this.tasksProcessing.map((task, index) => {
+            task.order = index + 1;
+            this.tasks.push(task);
+        });
+        this.tasksCompleted.map((task, index) => {
+            task.order = index + 1;
+            this.tasks.push(task);
+        });
         http.put('tasks/update_order', {tasks: this.tasks})
     },
     onAdd(event, status) {
